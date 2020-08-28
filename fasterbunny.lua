@@ -4,54 +4,33 @@ chat.AddText(
 	)
 --
 
-local isBunny = false -- включен ли bhop
-local isSilent = false
+CreateClientConVar('isBunny', 1, true, false)
 
 concommand.Add('.bunny', function( )
-	if isBunny == false then
-		isBunny = true
+	if GetConVar('isBunny'):GetInt() == 0 then
+		GetConVar('isBunny'):SetInt(1)
 		RunConsoleCommand('+speed')
-
-		if isSilent == false then
-			chat.AddText(Color(100, 255, 100), '[+] FasterBunny - ON')
-		end
+		chat.AddText(Color(100, 255, 100), '[+] FasterBunny - ON')
+	
 	else
-		isBunny = false
+		GetConVar('isBunny'):SetInt(0)
 		RunConsoleCommand('-speed')
-		timer.Destroy('Bhop')
-
-		if isSilent == false then
-			chat.AddText(Color(255, 100, 100), '[-] FasterBunny - OFF')
-		end
+		chat.AddText(Color(255, 100, 100), '[-] FasterBunny - OFF')
 	end
 end )
 
-concommand.Add('+silent', function( )
-	if isSilent == false then
-		isSilent = true
-		print('FasterBunny | Silent mode - ON')
-	end
-end)
+function Bunnyhop()
+	if GetConVar('isBunny'):GetInt() == 1 then
+	 	if input.IsKeyDown(KEY_SPACE) then
+	 		if LocalPlayer():IsOnGround() then
+	 			RunConsoleCommand('+jump')
 
-concommand.Add('-silent', function( )
-	if isSilent then
-		isSilent = false
-		print('FasterBunny | Silent mode - OFF')
-	end
-end)
-
-
-function FasterBunny(  )
-	if isBunny then
-		if input.input.WasKeyTyped(65) and LocalPlayer():IsOnGround() then
-			RunConsoleCommand('+jump')
-			timer.Create('Bhop', 0, 0.01, function( )
-				RunConsoleCommand('-jump')
-			end)
-		else
-			RunConsoleCommand('-jump')
-		end
-	end
+	 			timer.Create("Bhop", 0, 0, function()
+	 				RunConsoleCommand('-jump')
+	 			end )
+	 		end
+ 		end
+ 	end
 end
 
-hook.Add('FasterBunny', 'BunnyHop', FasterBunny)
+hook.Add( 'Think', 'FasterBunnyScript', Bunnyhop )
