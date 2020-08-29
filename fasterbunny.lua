@@ -6,7 +6,7 @@ chat.AddText(
 
 -- Переменные
 CreateClientConVar('isBunny', 1, true, false)
-local ply = LocalPlayer()
+CreateClientConVar('playerVelocity', LocalPlayer():GetVelocity(), true, false)
 --
 
 concommand.Add('.bunny', function( )
@@ -14,6 +14,7 @@ concommand.Add('.bunny', function( )
 		GetConVar('isBunny'):SetInt(1)
 		RunConsoleCommand('+speed')
 		chat.AddText(Color(100, 255, 100), '[+] FasterBunny - ON')
+		LocalPlayer():SetFOV( LocalPlayer():GetFOV() + 50 )
 	
 	else
 		GetConVar('isBunny'):SetInt(0)
@@ -26,7 +27,7 @@ end )
 function Bunnyhop()
 	if GetConVar('isBunny'):GetInt() == 1 then
 	 	if input.IsKeyDown(KEY_SPACE) then
-	 		if ply:IsOnGround() then
+	 		if LocalPlayer():IsOnGround() then
 	 			RunConsoleCommand('+jump')
 
 	 			timer.Create('Bhop', 0, 0, function()
