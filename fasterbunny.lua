@@ -1,7 +1,7 @@
 -- Авторство
 chat.AddText(
 	Color(255, 255, 255), 'Скрипт разработал (Telegram ID): ', 
-	Color(255, 100, 100), '@SepultureSE'
+	Color(255, 100, 100), '@sepulturesa'
 	)
 
 -- Клиентские ConVar переменные
