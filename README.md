@@ -1,2 +1,1 @@
-# fasterbunny-gmod
-FasterBunny - BunnyHop скрипт для Garry's Mod
+Просто практиковался в скриптах на gLua
